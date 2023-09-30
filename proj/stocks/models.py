@@ -1,27 +1,31 @@
 from django.db import models
 
 class Stock(models.Model):
-    stock = models.CharField(max_length=10)
+    stock = models.CharField(max_length=32)
     interval = models.CharField(max_length=8)
     last_updated = models.DateTimeField("last updated")
+
+    # Optional Derived Attributes
+    #  = models.FloatField(blank=True, default='')
+
     def __str__(self):
         return str(self.stock)
 
 class Overview(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    Symbol = models.CharField(max_length=10)
-    AssetType = models.CharField(max_length=10)
-    Name = models.CharField(max_length=100)
-    Description = models.CharField(max_length=500)
-    CIK = models.CharField(max_length=10)
-    Exchange = models.CharField(max_length=10)
-    Currency = models.CharField(max_length=10)
-    Country = models.CharField(max_length=10)
-    Sector = models.CharField(max_length=10)
-    Industry = models.CharField(max_length=10)
-    Address = models.CharField(max_length=100)
-    FiscalYearEnd = models.CharField(max_length=10)
-    LatestQuarter = models.CharField(max_length=10)
+    Symbol = models.CharField(max_length=32)
+    AssetType = models.CharField(max_length=32)
+    Name = models.CharField(max_length=320)
+    Description = models.TextField()
+    CIK = models.CharField(max_length=32)
+    Exchange = models.CharField(max_length=32)
+    Currency = models.CharField(max_length=32)
+    Country = models.CharField(max_length=32)
+    Sector = models.CharField(max_length=32)
+    Industry = models.CharField(max_length=32)
+    Address = models.CharField(max_length=320)
+    FiscalYearEnd = models.CharField(max_length=32)
+    LatestQuarter = models.CharField(max_length=32)
     MarketCapitalization = models.FloatField()
     EBITDA = models.FloatField()
     PERatio = models.FloatField()
@@ -75,7 +79,7 @@ class Price(models.Model):
 class Balance(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     fiscalDateEnding = models.DateTimeField("date")
-    reportedCurrency = models.CharField(max_length=10)
+    reportedCurrency = models.CharField(max_length=32)
     totalAssets = models.FloatField()
     totalCurrentAssets = models.FloatField()
     cashAndCashEquivalentsAtCarryingValue = models.FloatField()
@@ -118,7 +122,7 @@ class Balance(models.Model):
 class Cash(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     fiscalDateEnding = models.DateTimeField("date")
-    reportedCurrency = models.CharField(max_length=10)
+    reportedCurrency = models.CharField(max_length=32)
     operatingCashflow = models.FloatField()
     paymentsForOperatingActivities = models.FloatField()
     proceedsFromOperatingActivities = models.FloatField()
@@ -152,7 +156,7 @@ class Cash(models.Model):
 class Income(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     fiscalDateEnding = models.DateTimeField("date")
-    reportedCurrency = models.CharField(max_length=10)
+    reportedCurrency = models.CharField(max_length=32)
     grossProfit = models.FloatField()
     totalRevenue = models.FloatField()
     costOfRevenue = models.FloatField()

@@ -28,9 +28,8 @@ def update_info_db(stock_object, ticker, fs, DB_object):
     if DB_object == Income: df = pd.DataFrame.from_dict(fs.get_income_statement_quarterly(ticker)[0])
     elif DB_object == Balance: df = pd.DataFrame.from_dict(fs.get_balance_sheet_quarterly(ticker)[0])
     elif DB_object == Cash: df = pd.DataFrame.from_dict(fs.get_cash_flow_quarterly(ticker)[0])
-    elif DB_object == Overview: df = pd.DataFrame.from_dict(fs.get_company_overview(ticker)[0])
-        
-    df['fiscalDateEnding'] = pd.to_datetime(df['fiscalDateEnding'])
+    elif DB_object == Overview: df = pd.Series(fs.get_company_overview(ticker)[0]).to_frame().T
+    if DB_object != Overview: df['fiscalDateEnding'] = pd.to_datetime(df['fiscalDateEnding'])
     if DB_object.objects.filter(stock=stock_object).exists(): df = df[df['fiscalDateEnding'] > obj.fiscalDateEnding]
     for row in df.iterrows():
         info_dict = row[1].to_dict()
